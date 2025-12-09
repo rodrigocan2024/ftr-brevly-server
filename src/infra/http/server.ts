@@ -8,7 +8,6 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from "fastify-type-provider-zod";
-import { env } from "@/env.ts";
 import { createLinkRoute } from "@/routes/create-link.ts";
 
 const server = fastify();
