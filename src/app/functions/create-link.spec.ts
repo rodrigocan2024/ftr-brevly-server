@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { describe, expect, it } from "vitest";
-import { isRight, unwrapEither } from "@/infra/shared/either.ts";
+import { isRight, isLeft, unwrapEither } from "@/infra/shared/either.ts";
 import { makeLink } from "@/test/factories/make-link.ts";
 import { createLink } from "./create-link.ts";
 import { ExistingLinkError } from "./errors/existing-link-error.ts";
@@ -21,11 +21,12 @@ describe("Create Link Function", async () => {
   it("should not allow creating a link with an existing shortUrl", async () => {
     const existingLink = await makeLink();
 
-    await expect(() =>
-      createLink({
-        originalUrl: "https://www.google.com",
-        shortUrl: existingLink.shortUrl,
-      }),
-    ).rejects.toBeInstanceOf(ExistingLinkError);
+    const sut = await createLink({
+      originalUrl: "https://www.google.com",
+      shortUrl: existingLink.shortUrl,
+    });
+
+    expect(isLeft(sut)).toBe(true);
+    expect(unwrapEither(sut)).toBeInstanceOf(ExistingLinkError);
   });
 });

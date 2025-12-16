@@ -8,8 +8,9 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from "fastify-type-provider-zod";
-import { createLinkRoute } from "@/routes/create-link.ts";
+import { createLinkRoute } from "./routes/create-link.ts";
 import { deleteLinkRoute } from "./routes/delete-link.ts";
+import { getLinkRoute } from "./routes/get-link.ts";
 
 const server = fastify();
 
@@ -49,6 +50,7 @@ server.register(fastifySwaggerUi, {
 
 server.register(createLinkRoute);
 server.register(deleteLinkRoute);
+server.register(getLinkRoute);
 
 server.listen({ port: 3333, host: "0.0.0.0" }).then(() => {
   console.log("HTTP server running!");

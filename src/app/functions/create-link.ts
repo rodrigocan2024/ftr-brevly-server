@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { db } from "@/infra/db/index.ts";
 import { links } from "@/infra/db/schemas/links.ts";
-import { type Either, makeRight } from "@/infra/shared/either.ts";
+import { type Either, makeLeft, makeRight } from "@/infra/shared/either.ts";
 import { ExistingLinkError } from "./errors/existing-link-error.ts";
 
 export const createLinkInput = z.object({
@@ -28,7 +28,7 @@ export async function createLink(
   });
 
   if (existingLink) {
-    throw new ExistingLinkError();
+    return makeLeft(new ExistingLinkError());
   }
 
   const link = await db
