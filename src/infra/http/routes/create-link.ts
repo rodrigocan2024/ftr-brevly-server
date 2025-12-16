@@ -22,10 +22,7 @@ export const createLinkRoute: FastifyPluginAsyncZod = async (server) => {
     },
     async (request, reply) => {
       const { originalUrl, shortUrl } = request.body;
-      console.log({
-        originalUrl,
-        shortUrl,
-      });
+
       const result = await createLink({ originalUrl, shortUrl });
 
       if (isLeft(result)) {
