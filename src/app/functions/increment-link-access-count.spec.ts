@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { isRight, unwrapEither } from "@/infra/shared/either.ts";
 import { makeLink } from "@/test/factories/make-link.ts";
+import { LinkNotFoundError } from "./errors/link-not-found-error.ts";
 import { incrementLinkAccessCount } from "./increment-link-access-count.ts";
 
 describe("Increment link access count", () => {
@@ -16,5 +17,12 @@ describe("Increment link access count", () => {
         accessCount: 1,
       }),
     });
+  });
+
+  it("should not be able to increment access count for a non-existing link", async () => {
+    const sut = await incrementLinkAccessCount({ id: "non-existing-link-id" });
+
+    expect(isRight(sut)).toBe(false);
+    expect(unwrapEither(sut)).toBeInstanceOf(LinkNotFoundError);
   });
 });
