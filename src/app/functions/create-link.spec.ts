@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { describe, expect, it } from "vitest";
-import { isRight, isLeft, unwrapEither } from "@/infra/shared/either.ts";
+import { isLeft, isRight, unwrapEither } from "@/infra/shared/either.ts";
 import { makeLink } from "@/test/factories/make-link.ts";
 import { createLink } from "./create-link.ts";
 import { ExistingLinkError } from "./errors/existing-link-error.ts";

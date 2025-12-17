@@ -1,10 +1,16 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
+import { db } from "@/infra/db/index.ts";
+import { schema } from "@/infra/db/schemas/index.ts";
 import { isRight, unwrapEither } from "@/infra/shared/either.ts";
 import { makeLink } from "@/test/factories/make-link.ts";
 import { LinkNotFoundError } from "./errors/link-not-found-error.ts";
 import { incrementLinkAccessCount } from "./increment-link-access-count.ts";
 
 describe("Increment link access count", () => {
+  beforeEach(async () => {
+    await db.delete(schema.links);
+  });
+
   it("should be able to increment link access count", async () => {
     const link = await makeLink();
 
